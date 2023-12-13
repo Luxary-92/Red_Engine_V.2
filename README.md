@@ -1,11 +1,17 @@
-# Sheeesh Engine
+## Red_Engine
 
-Sheeesh Engine is a 3D game engine made by two students from CITM-UPC Terrassa, Xiao Costajussà Bellver & Oriol Martín Corella.
+Red Engine is a 3D videogame engine [(Forked from the Sheeesh Engine V.2.0)](https://github.com/Urii98/SheeeshEngine)
 
-- Oriol's GitHub account: [Uri](https://github.com/Urii98)
-- Xiao's GitHub account: [Xiao](https://github.com/xaitta)
-- Our GitHub project: [Sheeesh Engine](https://github.com/Urii98/SheeeshEngine)
+## Team Members
 
+Nixon Correa Albarracín -> Github account: [Nixonbit3](https://github.com/Nixonbit3)
+
+Enric Arxer Cortés -> Github account: [Luxary-92](https://github.com/Luxary-92)
+
+## Install
+Download the most recent release
+Extract the .zip
+Click on the Emmerald Engine folder and Execute Red_Engine.exe
 
 ## Engine Description
 
