@@ -123,6 +123,7 @@ bool ModuleEditor::Init()
     isActiveHierarchy = true;
     isActiveConsole = true;
     isActiveInspector = true;
+    isActiveConfiguration = true;
 
     return true;
 }
@@ -183,9 +184,9 @@ update_status ModuleEditor::DrawEditor()
     {
         if (ImGui::BeginMenu("File"))
         {
-            if (ImGui::MenuItem("Quit Application", "ESC")) {
-                ret = UPDATE_STOP;
-            }
+            //if (ImGui::MenuItem("Quit Application", "ESC")) {
+            //    ret = UPDATE_STOP;
+            //}
 
             if (ImGui::MenuItem("Save Scene", "Ctrl+S"))
             {
@@ -200,6 +201,7 @@ update_status ModuleEditor::DrawEditor()
             ImGui::EndMenu();
             
         }
+
         if (ImGui::BeginMenu("Game Objects"))
         {
 
@@ -254,147 +256,111 @@ update_status ModuleEditor::DrawEditor()
 
             ImGui::EndMenu();
         }
-     
 
-        if (ImGui::BeginMenu("Configuration"))
+        if (ImGui::BeginMenu("About"))
         {
-            if (ImGui::Button("Save"))App->SaveConfigRequest();
-            ImGui::SameLine();
-            if (ImGui::Button("Load"))App->LoadConfigRequest();
+            ImGui::Text("Red Engine"); ImGui::NewLine();
 
-            if (ImGui::CollapsingHeader(" Camera Options "))
+            if (ImGui::CollapsingHeader("Project Info", ImGuiTreeNodeFlags_DefaultOpen))
             {
-                const char* listType[]{ "Perspective", "Orthographic" };
+                ImGui::Text("Engine created for the subject of VideoGame Engines Created by : ");
 
-                ImGui::LabelText("##Scene mesh", "Rendering Meshes:");
-                ImGui::SameLine();
-                ImGui::Text("%d", App->assimpMeshes->renderedSceneMeshes);
-
-                ImGui::Text(" Camera type: ");
-                ImGui::SameLine();
-                if (ImGui::Combo("##CameraType", &App->camera->camera->typeCameraSelected, listType, IM_ARRAYSIZE(listType)))
-                {
-                    if (App->camera->camera->typeCameraSelected == 0)
-                        App->camera->camera->frustum.type = PerspectiveFrustum;
-
-                    if (App->camera->camera->typeCameraSelected == 1)
-                        App->camera->camera->frustum.type = OrthographicFrustum;
-
+                ImGui::NewLine();
+                if (ImGui::MenuItem("Nixon Daniel Correa Albarracin")) {
+                    ShellExecute(0, 0, "https://github.com/Nixonbit3", 0, 0, SW_SHOW);
                 }
-
-                ImGui::Text("");
-
-                //Fov camera
-                ImGui::Text(" FOV\t\t  ");
-                ImGui::SameLine();
-                if (ImGui::SliderInt("##FOVert", &App->camera->camera->cameraFOV, 10, 200))
-                {
-                    App->camera->camera->frustum.verticalFov = App->camera->camera->cameraFOV * DEGTORAD;
-                    App->camera->camera->frustum.horizontalFov = 2.0f * atanf(tanf(App->camera->camera->frustum.verticalFov / 2.0f) * 1.7f);
-                    App->renderer3D->OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
+                ImGui::Text("&");
+                if (ImGui::MenuItem("Enric Arxer Cortes")) {
+                    ShellExecute(0, 0, "https://github.com/Luxary-92", 0, 0, SW_SHOW);
                 }
+                ImGui::NewLine();
+                if (ImGui::MenuItem("Github page : https://github.com/Luxary-92/Red_Engine")) {
+                    ShellExecute(0, 0, "https://github.com/Luxary-92/Red_Engine", 0, 0, SW_SHOW);
+                }
+            }
 
-                ImGui::Text("");
-
-                //Slider Set Near Distane
-                ImGui::Text(" Near Distance\t");
-                ImGui::SameLine();
-                if (ImGui::InputFloat("##nearDistance", &App->camera->camera->nearDistance))
-                {
-                    if (App->camera->camera->nearDistance >= App->camera->camera->farDistance)
+            if (ImGui::CollapsingHeader("Libraries and links to their websites:", ImGuiTreeNodeFlags_DefaultOpen))
+            {
+                    // Libraries
+                
+                    if (ImGui::Button("SDL"))
                     {
-                        App->camera->camera->farDistance = App->camera->camera->nearDistance + 1;
-                        App->camera->camera->frustum.farPlaneDistance = App->camera->camera->farDistance;
+                        URLButton("https://libsdl.org/index.php");
                     }
-
-                    App->camera->camera->frustum.nearPlaneDistance = App->camera->camera->nearDistance;
-                    App->renderer3D->OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
-                }
-
-                ImGui::Text("");
-
-                //Slider Set Far Distane
-                ImGui::Text(" Far Distance\t ");
-                ImGui::SameLine();
-                if (ImGui::InputFloat("##farDistance", &App->camera->camera->farDistance))
-                {
-                    if (App->camera->camera->farDistance <= App->camera->camera->nearDistance)
+                    ImGui::SameLine();
+                    ImGui::Text(sdlVersion.c_str());
+                
+                    if (ImGui::Button("OpenGL"))
                     {
-                        App->camera->camera->nearDistance = App->camera->camera->farDistance - 1;
-                        App->camera->camera->frustum.nearPlaneDistance = App->camera->camera->nearDistance;
+                        URLButton("https://www.opengl.org/");
                     }
-
-                    App->camera->camera->frustum.farPlaneDistance = App->camera->camera->farDistance;
-                    App->renderer3D->OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
-                }
+                    ImGui::SameLine();
+                    ImGui::Text("OpenGL: %s", glewGetString(GLEW_VERSION));
                 
-            }
-
-            if (ImGui::Checkbox("Vsync", &vsync))
-            {
-                App->renderer3D->SetVsync(vsync);
-            }
-
-            std::string fps = std::to_string(AverageValueFloatVector(mFPSLog));
-            std::string fpsText = "Average FPS: " + fps;
-            ImGui::Text(fpsText.c_str());
-            ImGui::PlotHistogram("FPS", &mFPSLog[0], mFPSLog.size(), 0, "FPS", 0.0f, 100.0f, ImVec2(450, 100));
-
-
-            std::string ms = std::to_string(AverageValueFloatVector(mMsLog));
-            std::string msText = "Average Miliseconds: " + ms;
-            ImGui::Text(msText.c_str());
-            ImGui::PlotHistogram("Ms.", &mMsLog[0], mMsLog.size(), 0, "Miliseconds", 0.0f, 100.0f, ImVec2(450, 100));
-
-
-            WindowCollapsingHeader();
-
-            RenderCollapsingHeader();
-            
-            if (ImGui::CollapsingHeader("Inputs"))
-            {
-                if (ImGui::IsMousePosValid())
-                    ImGui::Text("Mouse pos: (%g, %g)", io.MousePos.x, io.MousePos.y);
-                else
-                    ImGui::Text("Mouse pos: <INVALID>");
-
-                ImGui::Text("Mouse down:");
-                for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (ImGui::IsMouseDown(i)) { ImGui::SameLine(); ImGui::Text("b%d (%.02f secs)", i, io.MouseDownDuration[i]); }
-                ImGui::Text("Mouse wheel: %.1f", io.MouseWheel);
+                    if (ImGui::Button("ImGui"))
+                    {
+                        URLButton("https://github.com/ocornut/imgui/");
+                    }
+                    ImGui::SameLine();
+                    ImGui::Text(ImGui::GetVersion());
                 
-                ImGuiKey start_key = (ImGuiKey)0;
-                struct funcs { static bool IsLegacyNativeDupe(ImGuiKey key) { return key < 512 && ImGui::GetIO().KeyMap[key] != -1; } }; 
-                ImGui::Text("Keys down:");         for (ImGuiKey key = start_key; key < ImGuiKey_NamedKey_END; key = (ImGuiKey)(key + 1)) { if (funcs::IsLegacyNativeDupe(key) || !ImGui::IsKeyDown(key)) continue; ImGui::SameLine(); ImGui::Text((key < ImGuiKey_NamedKey_BEGIN) ? "\"%s\"" : "\"%s\" %d", ImGui::GetKeyName(key), key); }
-
+                    if (ImGui::Button("Glew"))
+                    {
+                        URLButton("http://glew.sourceforge.net/");
+                    }
+                    ImGui::SameLine();
+                    ImGui::Text((const char*)glewGetString(GLEW_VERSION));
                 
+                    // Phys
+                    // Assimp
+                    if (ImGui::Button("Assimp"))
+                    {
+                        URLButton("https://www.assimp.org/");
+                    }
+                    ImGui::SameLine();
+                    ImGui::Text(assimpVersion.c_str());
+                
+                    
+                    //Devil
+                    if (ImGui::Button("DevIL"))
+                    {
+                        URLButton("http://openil.sourceforge.net/");
+                    }
+                    ImGui::SameLine();
+                    ImGui::Text("v1.8.0");
+                
+                    ImGui::Separator();
+                    ImGui::Spacing();
+                
+                    // Licence
+                    ImGui::Text(license.c_str());
             }
-
-            HardwareCollapsingHeader();
-
-            
-
-            if (ImGui::Button("Close", ImVec2(60, 0)))
+            //License
+            if (ImGui::CollapsingHeader("License", ImGuiTreeNodeFlags_DefaultOpen))
             {
-                ImGui::CloseCurrentPopup();
-            }
-            ImGui::End();
-        }
-
-        if (ImGui::BeginMenu("Help"))
-        {
-            if (ImGui::MenuItem("About..."))
-            {
-                showAboutWindow = true;
+                ImGui::Text("License:"); ImGui::NewLine();
+                ImGui::TextWrapped("Copyright (c) 2023 Luxary"); ImGui::NewLine();
+                ImGui::TextWrapped("Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files(the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and /or sell copies of the Software, and to permit persons to whom the Software i furnished to do so, subject to the following conditions : ");
+                ImGui::NewLine();
+                ImGui::TextWrapped("The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.");
+                ImGui::NewLine();
+                ImGui::TextWrapped("THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.");
+                ImGui::NewLine();
             }
 
             ImGui::EndMenu();
         }
-
-        //CreateAboutModalPopup(showModalAbout);
-        CreateAboutWindow(showAboutWindow);
+  
+        ConfigurationWindow(isActiveConfiguration);
         CreateConsoleWindow(isActiveConsole);
 
         ViewCollapsingHeader();
+
+        if (ImGui::Button("Close Application"))
+        {
+            //here to close the app
+            ret = UPDATE_STOP;
+        }
 
         ImGui::SameLine(ImGui::GetWindowWidth() / 2 - 37);
         {
@@ -435,25 +401,34 @@ update_status ModuleEditor::DrawEditor()
         ImGui::EndMainMenuBar();
     }
 
-
-
-    if (App->hierarchy->objSelected && isActiveInspector) {
+    if (isActiveInspector) {
 
         if (ImGui::Begin("Inspector")) {
-            
-            App->hierarchy->objSelected->PrintInspector();
+
+            if (App->hierarchy->objSelected && isActiveInspector) {
+
+
+                App->hierarchy->objSelected->PrintInspector();
+
+                
+            }
         }
         ImGui::End();
     }
 
-  
+    //if (App->hierarchy->objSelected && isActiveInspector) {
+
+    //    if (ImGui::Begin("Inspector")) {
+    //        
+    //        App->hierarchy->objSelected->PrintInspector();
+    //    }
+    //    ImGui::End();
+    //}
 
     if (isActiveHierarchy) {
         if (ImGui::Begin("GameObjects Hierarchy")) {
 
             App->hierarchy->GameObjectTree(App->scene->root, 0);
-
-
         }
         ImGui::End();
     }
@@ -480,7 +455,7 @@ void ModuleEditor::EditorShortcuts()
 
 void ModuleEditor::ViewCollapsingHeader() {
 
-    if (ImGui::BeginMenu("View")) {
+    if (ImGui::BeginMenu("View Windows")) {
 
         if (ImGui::Checkbox("Hierarchy", &isActiveHierarchy))
         {
@@ -494,6 +469,10 @@ void ModuleEditor::ViewCollapsingHeader() {
         {
             isActiveConsole != isActiveConsole;
         }
+        if (ImGui::Checkbox("Configuration", &isActiveConfiguration))
+        {
+            isActiveConfiguration != isActiveConfiguration;
+        }
 
         ImGui::EndMenu();
     }
@@ -501,7 +480,7 @@ void ModuleEditor::ViewCollapsingHeader() {
 
 void ModuleEditor::HardwareCollapsingHeader()
 {
-    if (ImGui::CollapsingHeader("Hardware"))
+    if (ImGui::CollapsingHeader("Hardware", ImGuiTreeNodeFlags_DefaultOpen))
     {
         ImGui::Text(sdlVersion.c_str());
         ImGui::Separator();
@@ -542,12 +521,17 @@ void ModuleEditor::HardwareCollapsingHeader()
         if (SSE41) { ImGui::SameLine(); ImGui::TextColored(IMGUICOL_SKY_BLUE, "SSE41,"); }
         if (SSE42) { ImGui::SameLine(); ImGui::TextColored(IMGUICOL_SKY_BLUE, "SSE42"); }
 
+        ImGui::Separator();
+        ImGui::BulletText("OpenGL %s", glGetString(GL_VERSION));
+        ImGui::BulletText("GPU-> %s", glGetString(GL_VENDOR));
+        ImGui::BulletText("Brand-> %s", glGetString(GL_RENDERER));
+
     }
 }
 
 void ModuleEditor::WindowCollapsingHeader()
 {
-    if (ImGui::CollapsingHeader("Window"))
+    if (ImGui::CollapsingHeader("Window", ImGuiTreeNodeFlags_DefaultOpen))
     {
         if (ImGui::BeginTable("split", 3))
         {
@@ -602,7 +586,7 @@ void ModuleEditor::WindowCollapsingHeader()
 
 void ModuleEditor::RenderCollapsingHeader()
 {
-    if (ImGui::CollapsingHeader("Renderer"))
+    if (ImGui::CollapsingHeader("Renderer", ImGuiTreeNodeFlags_DefaultOpen))
     {
         if (ImGui::BeginTable("split", 3))
         {
@@ -684,101 +668,101 @@ void ModuleEditor::RenderCollapsingHeader()
     }
 }
 
-void ModuleEditor::CreateAboutWindow(bool& showAboutWindow)
-{
-    if (!showAboutWindow)
-        return;
-
-    ImGui::SetNextWindowSize(ImVec2(920, 300), ImGuiCond_FirstUseEver);
-    if (!ImGui::Begin("About", &showAboutWindow))
-    {
-        showAboutWindow = true;
-        ImGui::End();
-        return;
-    }
-
-    // Basic Info
-    ImGui::Text("Sheesh Engine");
-    ImGui::Separator();
-    ImGui::Spacing();
-    ImGui::Text("Venture into the realm of game development with the legendary Sheesh Engine, \na creation born from the collaborative efforts of two visionary minds at CITM.");
-    ImGui::Text("Whether you seek to forge epic tales of heroism or weave enchanting mysteries,\nthis engine is your magical wand.");
-    ImGui::Spacing();
-    if (ImGui::Button("Autors: Oriol Martin Corella & Xiao Shan Costajussa Bellver"))
-    {
-        URLButton("https://github.com/Urii98/SheeeshEngine");
-    }
-
-    ImGui::Spacing();
-    ImGui::Separator();
-    ImGui::Spacing();
-
-    // Libraries
-    ImGui::Text("Libraries and links to their websites:");
-
-    if (ImGui::Button("SDL"))
-    {
-        URLButton("https://libsdl.org/index.php");
-    }
-    ImGui::SameLine();
-    ImGui::Text(sdlVersion.c_str());
-
-    if (ImGui::Button("OpenGL"))
-    {
-        URLButton("https://www.opengl.org/");
-    }
-    ImGui::SameLine();
-    ImGui::Text("OpenGL: %s", glewGetString(GLEW_VERSION));
-
-    if (ImGui::Button("ImGui"))
-    {
-        URLButton("https://github.com/ocornut/imgui/");
-    }
-    ImGui::SameLine();
-    ImGui::Text(ImGui::GetVersion());
-
-    if (ImGui::Button("Glew"))
-    {
-        URLButton("http://glew.sourceforge.net/");
-    }
-    ImGui::SameLine();
-    ImGui::Text((const char*)glewGetString(GLEW_VERSION));
-
-    // Phys
-    // Assimp
-    if (ImGui::Button("Assimp"))
-    {
-        URLButton("https://www.assimp.org/");
-    }
-    ImGui::SameLine();
-    ImGui::Text(assimpVersion.c_str());
-
-    
-    //Devil
-    if (ImGui::Button("DevIL"))
-    {
-        URLButton("http://openil.sourceforge.net/");
-    }
-    ImGui::SameLine();
-    ImGui::Text("v1.8.0");
-
-    ImGui::Separator();
-    ImGui::Spacing();
-
-    // Licence
-    ImGui::Text(license.c_str());
-
-    // Close Button
-    if (ImGui::Button("Close", ImVec2(60, 0)))
-    {
-        showAboutWindow = false;
-    }
-
-    ImGui::End();
-
-
-
-}
+//void ModuleEditor::CreateAboutWindow(bool& showAboutWindow)
+//{
+//    if (!showAboutWindow)
+//        return;
+//
+//    ImGui::SetNextWindowSize(ImVec2(920, 300), ImGuiCond_FirstUseEver);
+//    if (!ImGui::Begin("About", &showAboutWindow))
+//    {
+//        showAboutWindow = true;
+//        ImGui::End();
+//        return;
+//    }
+//
+//    // Basic Info
+//    ImGui::Text("Sheesh Engine");
+//    ImGui::Separator();
+//    ImGui::Spacing();
+//    ImGui::Text("Venture into the realm of game development with the legendary Sheesh Engine, \na creation born from the collaborative efforts of two visionary minds at CITM.");
+//    ImGui::Text("Whether you seek to forge epic tales of heroism or weave enchanting mysteries,\nthis engine is your magical wand.");
+//    ImGui::Spacing();
+//    if (ImGui::Button("Autors: Oriol Martin Corella & Xiao Shan Costajussa Bellver"))
+//    {
+//        URLButton("https://github.com/Urii98/SheeeshEngine");
+//    }
+//
+//    ImGui::Spacing();
+//    ImGui::Separator();
+//    ImGui::Spacing();
+//
+//    // Libraries
+//    ImGui::Text("Libraries and links to their websites:");
+//
+//    if (ImGui::Button("SDL"))
+//    {
+//        URLButton("https://libsdl.org/index.php");
+//    }
+//    ImGui::SameLine();
+//    ImGui::Text(sdlVersion.c_str());
+//
+//    if (ImGui::Button("OpenGL"))
+//    {
+//        URLButton("https://www.opengl.org/");
+//    }
+//    ImGui::SameLine();
+//    ImGui::Text("OpenGL: %s", glewGetString(GLEW_VERSION));
+//
+//    if (ImGui::Button("ImGui"))
+//    {
+//        URLButton("https://github.com/ocornut/imgui/");
+//    }
+//    ImGui::SameLine();
+//    ImGui::Text(ImGui::GetVersion());
+//
+//    if (ImGui::Button("Glew"))
+//    {
+//        URLButton("http://glew.sourceforge.net/");
+//    }
+//    ImGui::SameLine();
+//    ImGui::Text((const char*)glewGetString(GLEW_VERSION));
+//
+//    // Phys
+//    // Assimp
+//    if (ImGui::Button("Assimp"))
+//    {
+//        URLButton("https://www.assimp.org/");
+//    }
+//    ImGui::SameLine();
+//    ImGui::Text(assimpVersion.c_str());
+//
+//    
+//    //Devil
+//    if (ImGui::Button("DevIL"))
+//    {
+//        URLButton("http://openil.sourceforge.net/");
+//    }
+//    ImGui::SameLine();
+//    ImGui::Text("v1.8.0");
+//
+//    ImGui::Separator();
+//    ImGui::Spacing();
+//
+//    // Licence
+//    ImGui::Text(license.c_str());
+//
+//    // Close Button
+//    if (ImGui::Button("Close", ImVec2(60, 0)))
+//    {
+//        showAboutWindow = false;
+//    }
+//
+//    ImGui::End();
+//
+//
+//
+//}
 
 void ModuleEditor::CreateConsoleWindow(bool& showConsoleWindow)
 {
@@ -1012,6 +996,137 @@ void ModuleEditor::DrawGuizmos()
     {
 
     }
+}
+
+//Configuration
+void ModuleEditor::ConfigurationWindow(bool& State)
+{
+    if (!State)
+        return;
+
+    ImGuiIO& io = ImGui::GetIO();
+
+    ImGui::Begin("Configuration", &isActiveConfiguration, ImGuiWindowFlags_MenuBar); {
+
+        if (ImGui::Button("Save"))App->SaveConfigRequest();
+        ImGui::SameLine();
+        if (ImGui::Button("Load"))App->LoadConfigRequest();
+
+        if (ImGui::CollapsingHeader(" Camera Options ", ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            const char* listType[]{ "Perspective", "Orthographic" };
+
+            ImGui::LabelText("##Scene mesh", "Rendering Meshes:");
+            ImGui::SameLine();
+            ImGui::Text("%d", App->assimpMeshes->renderedSceneMeshes);
+
+            ImGui::Text(" Camera type: ");
+            ImGui::SameLine();
+            if (ImGui::Combo("##CameraType", &App->camera->camera->typeCameraSelected, listType, IM_ARRAYSIZE(listType)))
+            {
+                if (App->camera->camera->typeCameraSelected == 0)
+                    App->camera->camera->frustum.type = PerspectiveFrustum;
+
+                if (App->camera->camera->typeCameraSelected == 1)
+                    App->camera->camera->frustum.type = OrthographicFrustum;
+
+            }
+
+            ImGui::Text("");
+
+            //Fov camera
+            ImGui::Text(" FOV\t\t  ");
+            ImGui::SameLine();
+            if (ImGui::SliderInt("##FOVert", &App->camera->camera->cameraFOV, 10, 200))
+            {
+                App->camera->camera->frustum.verticalFov = App->camera->camera->cameraFOV * DEGTORAD;
+                App->camera->camera->frustum.horizontalFov = 2.0f * atanf(tanf(App->camera->camera->frustum.verticalFov / 2.0f) * 1.7f);
+                App->renderer3D->OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
+            }
+
+            ImGui::Text("");
+
+            //Slider Set Near Distane
+            ImGui::Text(" Near Distance\t");
+            ImGui::SameLine();
+            if (ImGui::InputFloat("##nearDistance", &App->camera->camera->nearDistance))
+            {
+                if (App->camera->camera->nearDistance >= App->camera->camera->farDistance)
+                {
+                    App->camera->camera->farDistance = App->camera->camera->nearDistance + 1;
+                    App->camera->camera->frustum.farPlaneDistance = App->camera->camera->farDistance;
+                }
+
+                App->camera->camera->frustum.nearPlaneDistance = App->camera->camera->nearDistance;
+                App->renderer3D->OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
+            }
+
+            ImGui::Text("");
+
+            //Slider Set Far Distane
+            ImGui::Text(" Far Distance\t ");
+            ImGui::SameLine();
+            if (ImGui::InputFloat("##farDistance", &App->camera->camera->farDistance))
+            {
+                if (App->camera->camera->farDistance <= App->camera->camera->nearDistance)
+                {
+                    App->camera->camera->nearDistance = App->camera->camera->farDistance - 1;
+                    App->camera->camera->frustum.nearPlaneDistance = App->camera->camera->nearDistance;
+                }
+
+                App->camera->camera->frustum.farPlaneDistance = App->camera->camera->farDistance;
+                App->renderer3D->OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
+            }
+
+        }
+
+        if (ImGui::CollapsingHeader("Frame Rate", ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            if (ImGui::Checkbox("Vsync", &vsync))
+            {
+                App->renderer3D->SetVsync(vsync);
+            }
+
+            std::string fps = std::to_string(AverageValueFloatVector(mFPSLog));
+            std::string fpsText = "Average FPS: " + fps;
+            ImGui::Text(fpsText.c_str());
+            ImGui::PlotHistogram("FPS", &mFPSLog[0], mFPSLog.size(), 0, "FPS", 0.0f, 100.0f, ImVec2(450, 100));
+
+
+            std::string ms = std::to_string(AverageValueFloatVector(mMsLog));
+            std::string msText = "Average Miliseconds: " + ms;
+            ImGui::Text(msText.c_str());
+            ImGui::PlotHistogram("Ms.", &mMsLog[0], mMsLog.size(), 0, "Miliseconds", 0.0f, 100.0f, ImVec2(450, 100));
+        }
+
+        WindowCollapsingHeader();
+
+        RenderCollapsingHeader();
+
+        if (ImGui::CollapsingHeader("Inputs", ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            if (ImGui::IsMousePosValid())
+                ImGui::Text("Mouse pos: (%g, %g)", io.MousePos.x, io.MousePos.y);
+            else
+                ImGui::Text("Mouse pos: <INVALID>");
+
+            ImGui::Text("Mouse down:");
+            for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (ImGui::IsMouseDown(i)) { ImGui::SameLine(); ImGui::Text("b%d (%.02f secs)", i, io.MouseDownDuration[i]); }
+            ImGui::Text("Mouse wheel: %.1f", io.MouseWheel);
+
+            ImGuiKey start_key = (ImGuiKey)0;
+            struct funcs { static bool IsLegacyNativeDupe(ImGuiKey key) { return key < 512 && ImGui::GetIO().KeyMap[key] != -1; } };
+            ImGui::Text("Keys down:");         for (ImGuiKey key = start_key; key < ImGuiKey_NamedKey_END; key = (ImGuiKey)(key + 1)) { if (funcs::IsLegacyNativeDupe(key) || !ImGui::IsKeyDown(key)) continue; ImGui::SameLine(); ImGui::Text((key < ImGuiKey_NamedKey_BEGIN) ? "\"%s\"" : "\"%s\" %d", ImGui::GetKeyName(key), key); }
+
+
+        }
+
+        HardwareCollapsingHeader();
+
+
+        ImGui::End();
+    }
+
 }
 
 

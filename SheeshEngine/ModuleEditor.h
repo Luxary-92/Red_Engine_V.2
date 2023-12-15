@@ -48,6 +48,7 @@ private:
     void CreateAboutWindow(bool& showAboutWindow);
     void URLButton(const char* url);
     void CreateConsoleWindow(bool& showConsoleWindow);
+    void ConfigurationWindow(bool& State);
     void ModuleEditor::WindowCollapsingHeader();
     void ModuleEditor::RenderCollapsingHeader();
     void UpdatePlots();
@@ -115,6 +116,7 @@ public:
     bool isActiveInspector;
     bool isActiveConsole;
     bool isActiveHierarchy;
+    bool isActiveConfiguration;
 
     //About Window
     std::string license;

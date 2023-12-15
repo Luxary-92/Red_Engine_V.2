@@ -26,7 +26,7 @@ ComponentMesh::ComponentMesh::~ComponentMesh()
 
 void ComponentMesh::PrintInspector()
 {
-	if (ImGui::CollapsingHeader("Mesh"))
+	if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth))
 	{
 		if (meshes.empty()) return;
 		for (int i = 0; i < meshes.size(); i++)
