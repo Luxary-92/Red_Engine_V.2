@@ -243,8 +243,5 @@ void GameObject::PrintInspector()
 		ImGui::Text("");
 		ImGui::SameLine(ImGui::GetWindowWidth() / 6);
 
-
 	}
-
-
 }

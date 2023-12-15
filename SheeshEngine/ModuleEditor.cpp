@@ -273,10 +273,17 @@ update_status ModuleEditor::DrawEditor()
                 if (ImGui::MenuItem("Enric Arxer Cortes")) {
                     ShellExecute(0, 0, "https://github.com/Luxary-92", 0, 0, SW_SHOW);
                 }
+                ImGui::Separator();
                 ImGui::NewLine();
                 if (ImGui::MenuItem("Github page : https://github.com/Luxary-92/Red_Engine")) {
-                    ShellExecute(0, 0, "https://github.com/Luxary-92/Red_Engine", 0, 0, SW_SHOW);
+                    ShellExecute(0, 0, "https://github.com/Luxary-92/Red_Engine_V.2", 0, 0, SW_SHOW);
                 }
+                ImGui::Separator();
+                ImGui::NewLine();
+                if (ImGui::MenuItem("Forked from the Sheeesh Engine V.2.0 : https://github.com/Urii98/SheeeshEngine")) {
+                    ShellExecute(0, 0, "https://github.com/Urii98/SheeeshEngine", 0, 0, SW_SHOW);
+                }
+                ImGui::NewLine();
             }
 
             if (ImGui::CollapsingHeader("Libraries and links to their websites:", ImGuiTreeNodeFlags_DefaultOpen))
@@ -329,7 +336,6 @@ update_status ModuleEditor::DrawEditor()
                     ImGui::SameLine();
                     ImGui::Text("v1.8.0");
                 
-                    ImGui::Separator();
                     ImGui::Spacing();
                 
                     // Licence
@@ -407,28 +413,45 @@ update_status ModuleEditor::DrawEditor()
 
             if (App->hierarchy->objSelected && isActiveInspector) {
 
-
                 App->hierarchy->objSelected->PrintInspector();
-
-                
+               
             }
         }
         ImGui::End();
     }
 
-    //if (App->hierarchy->objSelected && isActiveInspector) {
-
-    //    if (ImGui::Begin("Inspector")) {
-    //        
-    //        App->hierarchy->objSelected->PrintInspector();
-    //    }
-    //    ImGui::End();
-    //}
-
     if (isActiveHierarchy) {
         if (ImGui::Begin("GameObjects Hierarchy")) {
 
             App->hierarchy->GameObjectTree(App->scene->root, 0);
+
+            ImGui::Separator();
+            //if (ImGui::CollapsingHeader("Add Componet"))
+            //{
+            //    if (ImGui::Selectable("Mesh"))
+            //    {
+            //        App->hierarchy->objSelected = new ComponentMesh();
+
+            //        if (App->hierarchy->objSelected->GetMeshComponent() == nullptr)
+            //            App->hierarchy->objSelected->AddComponent(objSelected);
+            //    }
+            //    if (ImGui::Selectable("Material"))
+            //    {
+            //        App->hierarchy->objSelected = new ComponentMesh();
+
+            //        if (App->hierarchy->objSelected->GetComponentTexture() == nullptr)
+            //            App->hierarchy->objSelected->AddComponent(NewMaterial);
+            //    }
+            //    if (ImGui::Selectable("Camera"))
+            //    {
+
+            //        App->hierarchy->objSelected = new ComponentCamera();
+
+            //        if (App->hierarchy->objSelected->GetComponentCamera() == nullptr)
+
+            //            App->hierarchy->objSelected->AddComponent(NewCamera);
+            //    }
+            //}
         }
         ImGui::End();
     }
