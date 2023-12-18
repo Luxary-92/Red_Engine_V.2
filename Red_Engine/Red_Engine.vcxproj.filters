@@ -375,6 +375,7 @@
     <ClInclude Include="ImGuismo\ImZoomSlider.h">
       <Filter>Sources\ImGuizmo</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -613,5 +614,11 @@
     <None Include="MathGeoLib\include\Math\Matrix.inl">
       <Filter>Externals\MathGeoLib\Math</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Game\Assets\Icon\Icon.ico" />
   </ItemGroup>
 </Project>
