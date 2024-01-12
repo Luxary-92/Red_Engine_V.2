@@ -266,19 +266,21 @@ update_status ModuleEditor::DrawEditor()
                 ImGui::Text("Engine created for the subject of VideoGame Engines Created by : ");
 
                 ImGui::NewLine();
-                if (ImGui::MenuItem("Nixon Daniel Correa Albarracin")) {
+                if (ImGui::MenuItem("Nixon Daniel Correa Albarracin: https://github.com/Nixonbit3")) {
                     ShellExecute(0, 0, "https://github.com/Nixonbit3", 0, 0, SW_SHOW);
                 }
+
                 ImGui::Text("&");
-                if (ImGui::MenuItem("Enric Arxer Cortes")) {
+                if (ImGui::MenuItem("Enric Arxer Cortes: https://github.com/Luxary-92")) {
                     ShellExecute(0, 0, "https://github.com/Luxary-92", 0, 0, SW_SHOW);
                 }
-                ImGui::Separator();
+
+
                 ImGui::NewLine();
-                if (ImGui::MenuItem("Github page : https://github.com/Luxary-92/Red_Engine")) {
+                if (ImGui::MenuItem("Github page of Engine: https://github.com/Luxary-92/Red_Engine")) {
                     ShellExecute(0, 0, "https://github.com/Luxary-92/Red_Engine_V.2", 0, 0, SW_SHOW);
                 }
-                ImGui::Separator();
+                ImGui::NewLine();
                 ImGui::NewLine();
                 if (ImGui::MenuItem("Forked from the Sheeesh Engine V.2.0 : https://github.com/Urii98/SheeeshEngine")) {
                     ShellExecute(0, 0, "https://github.com/Urii98/SheeeshEngine", 0, 0, SW_SHOW);
