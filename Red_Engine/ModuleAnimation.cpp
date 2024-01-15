@@ -39,4 +39,15 @@ update_status ModuleAnimation::Update(float dt)
     return update_status::UPDATE_CONTINUE;
 }
 
+void ModuleAnimation::SaveChannel(const Channel& channel, char** cursor) {
 
+	// Name
+	uint nameSize = channel.name.size();
+	memcpy(*cursor, &nameSize, sizeof(uint));   
+	*cursor += sizeof(uint);
+
+	memcpy(*cursor, channel.name.c_str(), channel.name.size());
+	*cursor += channel.name.size();
+
+
+}
