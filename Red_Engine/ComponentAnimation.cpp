@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleAnimation.h"
 
 ComponentAnimation::ComponentAnimation() : Component(nullptr)
 {
@@ -22,21 +23,25 @@ ComponentAnimation::~ComponentAnimation()
 
 }
 
+void ComponentAnimation::PushAnimation(Animation* pushedAnimation) {
+
+	this->animationsList.push_back(pushedAnimation);
+
+}
+
 void ComponentAnimation::PrintInspector()
 {
 	if (ImGui::CollapsingHeader("Animation", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth))
 	{
-		/*
-		if (meshes.empty()) return;
-		for (int i = 0; i < meshes.size(); i++)
+		
+		if (animationsList.empty()) return;
+		for (int i = 0; i < animationsList.size(); i++)
 		{
-			ImGui::LabelText("##%f", "Number of vertex:");
-			ImGui::SameLine();
-			ImGui::Text("%d", meshes[i]->vertexCount);
-			ImGui::LabelText("##%f", "Number of index:");
-			ImGui::Checkbox("Face Normals", &faceNormals);
+
+			ImGui::Text("Has animations");
+
 		}
-		*/
+		
 
 	}
 }

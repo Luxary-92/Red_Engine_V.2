@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
+#include "ComponentAnimation.h"
 #include "OurPrimitive.h"
 
 
