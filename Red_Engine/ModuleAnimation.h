@@ -27,6 +27,7 @@ public:
     float currentFrame = 0;
     bool loop = false;
 
+
     Animation(const std::string& animName, float animDuration);
 };
 
@@ -35,6 +36,7 @@ class ModuleAnimation : public Module
 public:
     ModuleAnimation(Application* app, bool start_enabled = true);
     ~ModuleAnimation();
+
     Animation* LoadAnimation(aiAnimation* anim);
 
     bool Init() override;
