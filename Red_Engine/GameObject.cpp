@@ -259,3 +259,11 @@ void GameObject::PrintInspector()
 
 	}
 }
+
+
+// In case componetAnimation Fails
+void GameObject::PushAnimation(Animation* pushedAnimation) {
+
+	this->animationsList.push_back(pushedAnimation);
+
+}

@@ -37,11 +37,7 @@ void ComponentAnimation::PrintInspector()
 		if (animationsList.empty()) return;
 		for (int i = 0; i < animationsList.size(); i++)
 		{
-
 			ImGui::Text("Has animations");
-
 		}
-		
-
 	}
 }
