@@ -151,7 +151,10 @@ void ModuleScene::SaveGameObjects(GameObject* parentGO, JsonParser& node) {
             
             tmp.SetNewJsonString(tmp.ValueToObject(tmp.GetRootValue()), "Material", componentMaterial->pathTexture.c_str());
 
+        case ComponentType::ANIMATION:
             
+
+
             break;
 
         default:
@@ -333,6 +336,10 @@ const char* ModuleScene::FormatComponentType(GameObject* parentGO, const size_t&
     case ComponentType::MATERIAL:
 
         return " Material";
+        break;
+    case ComponentType::ANIMATION:
+
+        return "Animation";
         break;
 
     default:
