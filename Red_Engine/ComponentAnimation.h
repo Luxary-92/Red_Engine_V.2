@@ -1,17 +1,19 @@
 #pragma once
 #include "Component.h"
 #include "MathGeoLib/include/MathGeoLib.h"
+#include "Application.h"
+#include "ImGui/imgui.h"
 
-struct Mesh;
+struct Animation;
 
 class ComponentAnimation : public Component
 {
 public:
 	ComponentAnimation();
-	ComponentAnimation(GameObject owner);
+	ComponentAnimation(GameObject* owner);
 	~ComponentAnimation();
 
-
+	void PrintInspector();
 
 private:
 
