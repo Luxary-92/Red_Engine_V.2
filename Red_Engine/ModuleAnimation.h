@@ -18,8 +18,12 @@ struct Channel
 class Animation
 {
 public:
+
     std::string name;
     float duration;
+    float ticksPerSec;
+    float currentFrame = 0;
+    bool loop = false;
 
     Animation(const std::string& animName, float animDuration);
 };
