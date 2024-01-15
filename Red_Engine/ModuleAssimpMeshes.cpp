@@ -49,6 +49,15 @@ GameObject* ModuleAssimpMeshes::LoadFile(std::string file_path)
 
         return OBJ;
     }
+
+    //Animation load
+    std::vector<Animation*> animations;
+
+    if (scene != nullptr && scene->HasAnimations()) {
+        for (uint i = 0; i < scene->mNumAnimations; i++) {
+            animations.push_back(App->animation->LoadAnimation(scene->mAnimations[i]));
+        }
+    }
     else
     {
         LOG("Error loading scene: %s", file_path);
