@@ -6,6 +6,8 @@
 #include <map>
 #include "MathGeoLib/include/Math/float3.h"
 
+struct aiAnimation;
+
 struct Channel
 {
     std::string name;
@@ -33,6 +35,7 @@ class ModuleAnimation : public Module
 public:
     ModuleAnimation(Application* app, bool start_enabled = true);
     ~ModuleAnimation();
+    Animation* LoadAnimation(aiAnimation* anim);
 
     bool Init() override;
     update_status Update(float dt) override;

@@ -11,6 +11,7 @@ class ComponentTransform;
 class ComponentMesh;
 class ComponentMaterial;
 class ComponentCamera;
+class ComponentAnimation;
 class GameObject
 {
 public:
@@ -38,6 +39,7 @@ public:
 
 	ComponentCamera* GetComponentCamera();
 
+	ComponentAnimation* GetComponentAnimation();
 
 	void SetPendingToDelete(bool deleteGO) { isTimetoDelete = deleteGO; };
 

@@ -135,6 +135,19 @@ ComponentCamera* GameObject::GetComponentCamera()
 	return nullptr;
 }
 
+ComponentAnimation* GameObject::GetComponentAnimation()
+{
+	for (size_t i = 0; i < mComponents.size(); i++)
+	{
+		if (mComponents[i]->type == ComponentType::ANIMATION) {
+
+			return (ComponentAnimation*)mComponents[i];
+		}
+	}
+
+	return nullptr;
+}
+
 
 bool GameObject::CheckChildOf(GameObject* parent)
 {
