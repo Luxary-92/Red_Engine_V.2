@@ -11,9 +11,16 @@ struct aiAnimation;
 struct Channel
 {
     std::string name;
-    std::map<double, float3> posKeys;
-    std::map<double, float3> rotKeys;
-    std::map<double, float3> scaleKeys;
+    std::map<double, float3> PosKeyFrames;
+    std::map<double, Quat> RotKeyFrames;
+    std::map<double, float3> ScaleKeyFrames;
+
+    std::map<double, float3>::const_iterator GetNextPosKey(double currentKey) const;
+    std::map<double, Quat>::const_iterator GetNextRotKey(double currentKey) const;
+    std::map<double, float3>::const_iterator GetNextScaleKey(double currentKey) const;
+    std::map<double, float3>::const_iterator GetPreviousPosKey(double currentKey) const;
+    std::map<double, Quat>::const_iterator GetPreviousRotKey(double currentKey) const;
+    std::map<double, float3>::const_iterator GetPreviousScaleKey(double currentKey) const;
 };
 
 
@@ -27,8 +34,9 @@ public:
     float currentFrame = 0;
     bool loop = false;
 
+    std::vector<Channel> channels, bakedChannels;
 
-    Animation(const std::string& animName, float animDuration);
+    Animation(const std::string& animName, float animDuration, float ticksPerSec);
 };
 
 class ModuleAnimation : public Module
