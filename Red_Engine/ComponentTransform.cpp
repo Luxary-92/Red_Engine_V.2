@@ -107,6 +107,7 @@ void ComponentTransform::calculateMatrix()
 	Quat q;
 	q = Quat::FromEulerXYZ(rx, ry, rz);
 	q=q.Normalized();
+
 	matrix = float4x4::FromTRS(position, q, scale).Transposed();
 
 }

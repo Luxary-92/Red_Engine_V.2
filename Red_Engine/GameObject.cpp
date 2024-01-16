@@ -353,7 +353,7 @@ void GameObject::UpdateAnimations(float dt) {
 
 	// Draw funcion
 	if (showBones) {
-		
+		DrawBones(rootBone);
 	}
 }
 

@@ -30,6 +30,7 @@ public:
 	GameObject* street;
 	GameObject* Test;
 	GameObject* Test2;
+	GameObject* Test3;
 
 	void SaveSceneRequest() { saveSceneRequest = true; }
 	void LoadSceneRequest() { loadSceneRequest = true; }

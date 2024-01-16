@@ -33,14 +33,21 @@ bool ModuleScene::Start() {
    street->transform->rotation.x = -90;
    street->transform->calculateMatrix();
 
+   Test = App->assimpMeshes->LoadFile("Assets/aniTest.fbx");
+   Test->transform->rotation.x = -90;
+   Test->transform->rotation.z = -180;
+   Test->transform->position.x = 15;
+   Test->transform->calculateMatrix();
+
    // FBX with animation
-   App->assimpMeshes->LoadFile("Assets/Animation/simpleAnimation.fbx");
+   Test2 = App->assimpMeshes->LoadFile("Assets/Animation/simpleAnimation.fbx");
+   Test->transform->position.x = -2;
+   Test->transform->position.z = -3;
+   Test->transform->calculateMatrix();
 
-   Test = App->assimpMeshes->LoadFile("Assets/Test_Animation/Idle.fbx");
+   App->assimpMeshes->LoadFile("Assets/Test_Animation/Idle.fbx");
 
-
-   Test2 = App->assimpMeshes->LoadFile("Assets/Test_Animation/simpleAnimation.fbx");
-
+   App->assimpMeshes->LoadFile("Assets/Test_Animation/simpleAnimation.fbx");
 
 
 
