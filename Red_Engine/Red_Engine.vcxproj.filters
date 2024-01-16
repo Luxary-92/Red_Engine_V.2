@@ -379,6 +379,9 @@
     <ClInclude Include="ModuleAnimation.h">
       <Filter>Sources\Modules\Header</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentAnimation.h">
+      <Filter>Sources\GameObject\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -599,6 +602,9 @@
     </ClCompile>
     <ClCompile Include="ModuleAnimation.cpp">
       <Filter>Sources\Modules\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentAnimation.cpp">
+      <Filter>Sources\GameObject\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

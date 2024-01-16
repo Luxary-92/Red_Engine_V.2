@@ -15,12 +15,11 @@ public:
 
 	void PrintInspector();
 
-	void AddAnimation(Animation* animation);
+	void AddAnimation(Animation* animations);
 
-	void PushAnimation(Animation* pushedAnimation);
+	void AddAnimations(std::vector<Animation*> animations);
 
 	std::vector<Animation*> animation;
-
 	bool animBonesLink = false;
 	bool linkChannels = false;
 	bool showAnimBones = false;
@@ -33,7 +32,6 @@ public:
 	uint currentAnimation = 0;
 	Animation* previousAnimationA = nullptr;
 	Animation* currentAnimationA = nullptr;
-
 
 private:
 

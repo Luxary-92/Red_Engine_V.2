@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentTransform.h"
@@ -261,7 +262,7 @@ void GameObject::PrintInspector()
 }
 
 
-// In case componetAnimation Fails
+// This has to go to componetAnimation
 
 void GameObject::AddAnimation(Animation* animation) {
 	this->animation.push_back(animation);
@@ -273,4 +274,77 @@ void GameObject::AddAnimations(std::vector<Animation*> animations)
 	for (int i = 0; i < animations.size(); i++) {
 		this->animation.push_back(animations[i]);
 	}
+}
+
+void GameObject::StartAnimation() {
+	if (rootBone == nullptr) {
+		if (!AllBones.empty()) {
+			rootBone == AllBones[0];
+		}
+		else {
+			return;
+		}
+	}
+}
+
+void GameObject::UpdateAnimations(float dt, bool playing) {
+
+	// Update Current Animation
+	if (playing) {
+		if (!hasAnimationStarted) { StartAnimation(); }
+		else {
+
+			if (currentAnimationA != nullptr) {
+
+				//Updating animation blend // Este comentario tiene ya 3 generaciones
+				float blendRatio = 0.0f;
+				if (blendingDuration > 0.0f)
+				{
+					previousAnimation += dt;
+					blendingCurrentTime += dt;
+
+					if (blendingCurrentTime >= blendingDuration)
+					{
+						blendingDuration = 0.0f;
+					}
+					else if (previousAnimationA && previousAnimation >= previousAnimationA->duration)
+					{
+						if (previousAnimationA->loop == true)
+						{
+							previousAnimation = 0.0f;
+						}
+					}
+
+					if (blendingDuration > 0.0f)
+						blendRatio = blendingCurrentTime / blendingDuration;
+				}
+				//time += dt;
+
+				currentAnimation = dt * currentAnimationA->ticksPerSec;
+
+				UpdateChannels(currentAnimationA, blendRatio > 0.0f ? previousAnimationA : nullptr, blendRatio);
+			}
+		}
+	}
+
+	// Draw bones if needed
+	if (showAnimBones) {
+		
+	}
+}
+
+void GameObject::UpdateChannels(const Animation* settings, const Animation* blend, float blendRatio) {
+
+}
+
+float3	GameObject::GetCurrentChannelPosition(const Channel& ch, float currentKey, float3 default) const {
+	return default;
+}
+
+Quat	GameObject::GetCurrentChannelRotation(const Channel& ch, float currentKey, Quat default) const {
+	return default;
+}
+
+float3	GameObject::GetCurrentChannelScale(const Channel& ch, float currentKey, float3 default) const {
+	return default;
 }
