@@ -89,11 +89,21 @@ public:
 
 	//Bones stuff
 	GameObject* rootBone = nullptr;
-	std::map <GameObject*, Channel*> AllBones;
+	std::map<std::string, GameObject*> AllBones;
 	std::vector<Animation*> animationBones;
+
+	uint boneID;
+
+	Channel* bone;
+
+	std::map <GameObject*, Channel*> BonesCurrentAnim;
+	std::map <GameObject*, Channel*> BonesPrevAnim;
 
 	void UpdateChannels(const Animation* settings, const Animation* blend, float blendRatio);
 	float3	GetCurrentChannelPosition(const Channel& ch, float currentKey, float3 defaultPos) const;
 	float3	GetCurrentChannelRotation(const Channel& ch, float currentKey, float3 defaultRot) const;
 	float3	GetCurrentChannelScale(const Channel& ch, float currentKey, float3 defaultScale) const;
+
+
 };
+

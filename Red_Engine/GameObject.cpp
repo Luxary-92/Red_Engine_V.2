@@ -278,12 +278,13 @@ void GameObject::AddAnimations(std::vector<Animation*> animations)
 void GameObject::StartAnimation() {
 	if (rootBone == nullptr) {
 		if (!AllBones.empty()) {
-			rootBone == AllBones.begin()->first;
+			rootBone == AllBones[0];
 		}
 		else {
 			return;
 		}
 	}
+
 }
 
 void GameObject::UpdateAnimations(float dt, bool playing) {
@@ -333,6 +334,7 @@ void GameObject::UpdateAnimations(float dt, bool playing) {
 }
 
 void GameObject::UpdateChannels(const Animation* settings, const Animation* blend, float blendRatio) {
+
 	uint currentFrame = currentAnimation;
 	uint prevBlendFrame = 0;
 
@@ -341,7 +343,7 @@ void GameObject::UpdateChannels(const Animation* settings, const Animation* blen
 	}
 
 	std::map<GameObject*, Channel*>::iterator createBones;
-	for (createBones = AllBones.begin(); createBones != AllBones.end(); ++createBones)
+	for (createBones = BonesCurrentAnim.begin(); createBones != BonesCurrentAnim.end(); ++createBones)
 	{
 		Channel& channel = *createBones->second;
 
@@ -351,8 +353,8 @@ void GameObject::UpdateChannels(const Animation* settings, const Animation* blen
 
 		if (blend != nullptr)
 		{
-			std::map<GameObject*, Channel*>::iterator foundChannel = AllBones.find(createBones->first);
-			if (foundChannel != AllBones.end()) {
+			std::map<GameObject*, Channel*>::iterator foundChannel = BonesPrevAnim.find(createBones->first);
+			if (foundChannel != BonesPrevAnim.end()) {
 				const Channel& blendChannel = *foundChannel->second;
 
 				position = float3::Lerp(GetCurrentChannelPosition(blendChannel, prevBlendFrame, float3(createBones->first->transform->getPosition().x, createBones->first->transform->getPosition().y, createBones->first->transform->getPosition().z)), position, blendRatio);
@@ -365,6 +367,7 @@ void GameObject::UpdateChannels(const Animation* settings, const Animation* blen
 	}
 }
 
+//Current Stadistics
 float3	GameObject::GetCurrentChannelPosition(const Channel& ch, float currentKey, float3 defaultPos) const {
 	if (ch.PosKeyFrames.size() > 0)
 	{

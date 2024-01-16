@@ -41,7 +41,7 @@ public:
     float currentFrame = 0;
     bool loop = false;
 
-    std::map<std::string, Channel> channels, bakedChannels;
+    std::map<std::string, Channel> channels;
 
 
     Animation(const std::string& animName, float animDuration, float ticksPerSec) {
