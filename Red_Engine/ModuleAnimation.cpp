@@ -39,8 +39,8 @@ update_status ModuleAnimation::Update(float dt)
     return update_status::UPDATE_CONTINUE;
 }
 
-/*
-void ModuleAnimation::SaveChannel1(const Channel& channel, char** cursor) {
+
+void ModuleAnimation::SaveChannel(const Channel& channel, char** cursor) {
 
     // Name
     uint nameSize = channel.name.size();
@@ -52,7 +52,7 @@ void ModuleAnimation::SaveChannel1(const Channel& channel, char** cursor) {
 
 
 }
-*/
+
 
 Animation* ModuleAnimation::LoadAnimation(aiAnimation* anim) {
 

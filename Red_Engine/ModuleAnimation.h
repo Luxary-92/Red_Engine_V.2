@@ -49,7 +49,7 @@ public:
 
     bool Init() override;
     update_status Update(float dt) override;
-
+    void SaveChannel(const Channel& channel, char** cursor);
 
 private:
     std::vector<Animation*> animations;
