@@ -152,15 +152,19 @@ Animation* ModuleAnimation::LoadAnimation(aiAnimation* anim) {
 			aiQuaternion aiValue = anim->mChannels[i]->mRotationKeys[j].mValue;
 			Quat q = Quat(aiValue.x, aiValue.y, aiValue.z, aiValue.w);
 			float3 rotationKey;
+
 			double sinr_cosp = 2 * (q.w * q.x + q.y * q.z);
 			double cosr_cosp = 1 - 2 * (q.x * q.x + q.y * q.y);
 			rotationKey.x = std::atan2(sinr_cosp, cosr_cosp);
+
 			double sinp = std::sqrt(1 + 2 * (q.w * q.x - q.y * q.z));
 			double cosp = std::sqrt(1 - 2 * (q.w * q.x - q.y * q.z));
 			rotationKey.y = 2 * std::atan2(sinp, cosp) - M_PI / 2;
+
 			double siny_cosp = 2 * (q.w * q.z + q.x * q.y);
 			double cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z);
 			rotationKey.z = std::atan2(siny_cosp, cosy_cosp);
+
 			channel.RotKeyFrames[anim->mChannels[i]->mRotationKeys[j].mTime] = rotationKey;
 		}
 
@@ -173,11 +177,52 @@ Animation* ModuleAnimation::LoadAnimation(aiAnimation* anim) {
 		}
 
 		//animation->channels[channel.name] = channel;
-		animation->channels.push_back(channel);
+		animation->channels[channel.name] = channel;
 	}
 
 	LOG("MESH 3D: Loaded %s Animation with %.2f duration.", animation->name.c_str(), animation->duration);
 
 	return animation;
+}
+
+// Position
+std::map<double, float3>::const_iterator Channel::PositionNextKey(double currentKey) const
+{
+	return PosKeyFrames.upper_bound(currentKey);
+}
+
+std::map<double, float3>::const_iterator Channel::PositionPrevousKey(double currentKey) const {
+	std::map<double, float3>::const_iterator ret = PosKeyFrames.lower_bound(currentKey);
+	if (ret != PosKeyFrames.begin())
+		ret--;
+
+	return ret;
+}
+// Rotation
+std::map<double, float3>::const_iterator Channel::RotationNextKey(double currentKey) const
+{
+	return RotKeyFrames.upper_bound(currentKey);
+}
+
+std::map<double, float3>::const_iterator Channel::RotationPrevousKey(double currentKey) const
+{
+	std::map<double, float3>::const_iterator ret = RotKeyFrames.lower_bound(currentKey);
+	if (ret != RotKeyFrames.begin())
+		ret--;
+	return ret;
+}
+
+// Scale
+std::map<double, float3>::const_iterator Channel::ScaleNextKey(double currentKey) const
+{
+	return ScaleKeyFrames.upper_bound(currentKey);
+}
+
+std::map<double, float3>::const_iterator Channel::ScalePrevousKey(double currentKey) const
+{
+	std::map<double, float3>::const_iterator ret = ScaleKeyFrames.lower_bound(currentKey);
+	if (ret != ScaleKeyFrames.begin())
+		ret--;
+	return ret;
 }
 

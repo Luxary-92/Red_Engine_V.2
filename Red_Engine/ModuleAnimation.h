@@ -41,7 +41,8 @@ public:
     float currentFrame = 0;
     bool loop = false;
 
-    std::vector<Channel> channels, bakedChannels;
+    std::map<std::string, Channel> channels, bakedChannels;
+
 
     Animation(const std::string& animName, float animDuration, float ticksPerSec) {
         this->name = name;

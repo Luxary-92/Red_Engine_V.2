@@ -317,7 +317,7 @@ void GameObject::UpdateAnimations(float dt, bool playing) {
 					if (blendingDuration > 0.0f)
 						blendRatio = blendingCurrentTime / blendingDuration;
 				}
-				//time += dt;
+				currentTime += dt;
 
 				currentAnimation = dt * currentAnimationA->ticksPerSec;
 
@@ -365,14 +365,72 @@ void GameObject::UpdateChannels(const Animation* settings, const Animation* blen
 	}
 }
 
-float3	GameObject::GetCurrentChannelPosition(const Channel& ch, float currentKey, float3 default) const {
-	return default;
+float3	GameObject::GetCurrentChannelPosition(const Channel& ch, float currentKey, float3 defaultPos) const {
+	if (ch.PosKeyFrames.size() > 0)
+	{
+		std::map<double, float3>::const_iterator previous = ch.PositionPrevousKey(currentKey);
+		std::map<double, float3>::const_iterator next = ch.PositionNextKey(currentKey);
+
+		if (ch.PosKeyFrames.begin()->first == -1) {
+			return defaultPos;
+		}
+
+		if (previous == next) {
+			defaultPos = previous->second;
+		}
+		else
+		{
+			float ratio = (currentKey - previous->first) / (next->first - previous->first);
+			defaultPos = previous->second.Lerp(next->second, ratio);
+		}
+	}
+
+	return defaultPos;
 }
 
-float3	GameObject::GetCurrentChannelRotation(const Channel& ch, float currentKey, float3 default) const {
-	return default;
+float3	GameObject::GetCurrentChannelRotation(const Channel& ch, float currentKey, float3 defaultRot) const {
+	if (ch.RotKeyFrames.size() > 0)
+	{
+		std::map<double, float3>::const_iterator previous = ch.RotationPrevousKey(currentKey);
+		std::map<double, float3>::const_iterator next = ch.RotationNextKey(currentKey);
+
+		if (ch.RotKeyFrames.begin()->first == -1) {
+			return defaultRot;
+		}
+
+		if (previous == next) {
+			defaultRot = previous->second;
+		}
+		else
+		{
+			float ratio = (currentKey - previous->first) / (next->first - previous->first);
+			defaultRot = previous->second.Lerp(next->second, ratio);
+		}
+	}
+
+	return defaultRot;
 }
 
-float3	GameObject::GetCurrentChannelScale(const Channel& ch, float currentKey, float3 default) const {
-	return default;
+float3	GameObject::GetCurrentChannelScale(const Channel& ch, float currentKey, float3 defaultScale) const {
+	if (ch.ScaleKeyFrames.size() > 0)
+	{
+		std::map<double, float3>::const_iterator previous = ch.ScalePrevousKey(currentKey);
+		std::map<double, float3>::const_iterator next = ch.ScaleNextKey(currentKey);
+
+		if (ch.ScaleKeyFrames.begin()->first == -1) {
+			return defaultScale;
+		}
+
+		// Check Blending Ratio between Keys
+		if (previous == next)
+		{
+			defaultScale = previous->second;
+		}
+		else
+		{
+			float ratio = (currentKey - previous->first) / (next->first - previous->first);
+			defaultScale = previous->second.Lerp(next->second, ratio);
+		}
+	}
+	return defaultScale;
 }
