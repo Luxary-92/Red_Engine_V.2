@@ -87,8 +87,15 @@ public:
 
 	//Bones stuff
 	GameObject* rootBone = nullptr;
-	std::vector <GameObject*> bones;
+	std::map<std::string, GameObject*> AllBones;
+	std::vector<Animation*> animationBones;
 
+	uint boneID;
+
+	Channel* bone;
+
+	std::map <GameObject*, Channel*> BonesCurrentAnim;
+	std::map <GameObject*, Channel*> BonesPrevAnim;
 	void DrawBones(GameObject* p);
 
 	//Chanels

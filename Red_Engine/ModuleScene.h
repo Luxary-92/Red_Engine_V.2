@@ -29,7 +29,7 @@ public:
 	GameObject* root = nullptr;
 	GameObject* street;
 	GameObject* Test;
-
+	GameObject* Test2;
 
 	void SaveSceneRequest() { saveSceneRequest = true; }
 	void LoadSceneRequest() { loadSceneRequest = true; }
