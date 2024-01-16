@@ -3,7 +3,9 @@
 #include <vector>
 #include <string>
 #include "ModuleAnimation.h"
-
+#include "MathGeoLib/include/Math/float3.h"
+#include <math.h>
+#include "glmath.h"
 
 enum class ComponentType;
 enum class GeometryType;
@@ -14,7 +16,7 @@ class ComponentMaterial;
 class ComponentCamera;
 class ComponentAnimation;
 
-//struct Animation;
+struct Animation;
 
 class GameObject
 {
@@ -87,14 +89,11 @@ public:
 
 	//Bones stuff
 	GameObject* rootBone = nullptr;
-	std::vector <GameObject*> AllBones;
+	std::map <GameObject*, Channel*> AllBones;
 	std::vector<Animation*> animationBones;
 
 	void UpdateChannels(const Animation* settings, const Animation* blend, float blendRatio);
 	float3	GetCurrentChannelPosition(const Channel& ch, float currentKey, float3 default) const;
-	Quat	GetCurrentChannelRotation(const Channel& ch, float currentKey, Quat default) const;
+	float3	GetCurrentChannelRotation(const Channel& ch, float currentKey, float3 default) const;
 	float3	GetCurrentChannelScale(const Channel& ch, float currentKey, float3 default) const;
-
-
-
 };

@@ -79,6 +79,13 @@ void ComponentTransform::setScale(float3 sca)
 	calculateMatrix();
 }
 
+void ComponentTransform::SetTransform(vec3 pos, vec3 rot, vec3 scale1) {
+	position = float3(pos.x, pos.y, pos.z);
+	rotation = float3(rot.x, rot.y, rot.z);
+	scale = float3(scale1.x, scale1.y, scale1.z);
+	calculateMatrix();
+}
+
 void ComponentTransform::SetTransformMatrixW(float4x4 matrix)
 {
 	math::Quat q;

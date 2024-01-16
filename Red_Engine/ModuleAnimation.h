@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <math.h>
+#include <iostream>
 #include "MathGeoLib/include/Math/float3.h"
 
 struct aiAnimation;
@@ -12,15 +14,15 @@ struct Channel
 {
     std::string name;
     std::map<double, float3> PosKeyFrames;
-    std::map<double, Quat> RotKeyFrames;
+    std::map<double, float3> RotKeyFrames;
     std::map<double, float3> ScaleKeyFrames;
 
     //Position
     std::map<double, float3>::const_iterator PositionNextKey(double currentKey) const;
     std::map<double, float3>::const_iterator PositionPrevousKey(double currentKey) const;
     //Rotation
-    std::map<double, Quat>::const_iterator RotationNextKey(double currentKey) const;
-    std::map<double, Quat>::const_iterator RotationPrevousKey(double currentKey) const;
+    std::map<double, float3>::const_iterator RotationNextKey(double currentKey) const;
+    std::map<double, float3>::const_iterator RotationPrevousKey(double currentKey) const;
     //Scale
     std::map<double, float3>::const_iterator ScaleNextKey(double currentKey) const;
     std::map<double, float3>::const_iterator ScalePrevousKey(double currentKey) const;
@@ -60,10 +62,8 @@ public:
     update_status Update(float dt) override;
     void SaveChannel(const Channel& channel, char** cursor);
     void SaveChannelKeys(const std::map<double, float3>& map, char** cursor);
-    void SaveChannelKeysQuat(const std::map<double, Quat>& map, char** cursor);
     void LoadChannel(Channel& channel, const char** cursor);
     void LoadChannelKeys(std::map<double, float3>& map, const char** cursor, uint size);
-    void LoadChannelKeysQuat(std::map<double, Quat>& map, const char** cursor, uint size);
 
 private:
     std::vector<Animation*> animations;
