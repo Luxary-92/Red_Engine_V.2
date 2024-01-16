@@ -39,7 +39,7 @@ update_status ModuleAnimation::Update(float dt)
     return update_status::UPDATE_CONTINUE;
 }
 
-
+//Save Chanels
 void ModuleAnimation::SaveChannel(const Channel& channel, char** cursor) {
 
     // Name
@@ -87,6 +87,67 @@ void ModuleAnimation::SaveChannelKeysQuat(const std::map<double, Quat>& map, cha
 		*cursor += sizeof(float) * 4;
 	}
 }
+//Load Chanels
+void ModuleAnimation::LoadChannel(Channel& channel, const char** cursor)
+{
+	uint bytes = 0;
+
+	uint nameSize = 0;
+	memcpy(&nameSize, *cursor, sizeof(uint));
+	*cursor += sizeof(uint);
+
+	if (nameSize > 0)
+	{
+		char* string = new char[nameSize + 1];
+		bytes = sizeof(char) * nameSize;
+
+		memcpy(string, *cursor, bytes);
+		*cursor += bytes;
+		string[nameSize] = '\0';
+
+		channel.name = string;
+
+		RELEASE_ARRAY(string);
+	}
+
+	uint range[3];
+	memcpy(&range, *cursor, sizeof(uint) * 3);
+	*cursor += sizeof(uint) * 3;
+
+	LoadChannelKeys(channel.PosKeyFrames, cursor, range[0]);
+	LoadChannelKeysQuat(channel.RotKeyFrames, cursor, range[1]);
+	LoadChannelKeys(channel.ScaleKeyFrames, cursor, range[2]);
+}
+
+void ModuleAnimation::LoadChannelKeys(std::map<double, float3>& map, const char** cursor, uint size) {
+	for (uint i = 0; i < size; i++)
+	{
+		double time;
+		memcpy(&time, *cursor, sizeof(double));
+		*cursor += sizeof(double);
+		float data[3];
+		memcpy(&data, *cursor, sizeof(float) * 3);
+		*cursor += sizeof(float) * 3;
+
+		map[time] = float3(data);
+	}
+}
+
+void ModuleAnimation::LoadChannelKeysQuat(std::map<double, Quat>& map, const char** cursor, uint size) {
+	for (uint i = 0; i < size; i++)
+	{
+		double time;
+		memcpy(&time, *cursor, sizeof(double));
+		*cursor += sizeof(double);
+		float data[4];
+		memcpy(&data, *cursor, sizeof(float) * 4);
+		*cursor += sizeof(float) * 4;
+
+		map[time] = Quat(data);
+	}
+}
+
+
 
 
 Animation* ModuleAnimation::LoadAnimation(aiAnimation* anim) {

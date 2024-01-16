@@ -41,7 +41,11 @@ public:
 
     std::vector<Channel> channels, bakedChannels;
 
-    Animation(const std::string& animName, float animDuration, float ticksPerSec);
+    Animation(const std::string& animName, float animDuration, float ticksPerSec) {
+        this->name = name;
+        this->duration = duration;
+        this->ticksPerSec = ticksPerSec;
+    };
 };
 
 class ModuleAnimation : public Module
@@ -57,6 +61,9 @@ public:
     void SaveChannel(const Channel& channel, char** cursor);
     void SaveChannelKeys(const std::map<double, float3>& map, char** cursor);
     void SaveChannelKeysQuat(const std::map<double, Quat>& map, char** cursor);
+    void LoadChannel(Channel& channel, const char** cursor);
+    void LoadChannelKeys(std::map<double, float3>& map, const char** cursor, uint size);
+    void LoadChannelKeysQuat(std::map<double, Quat>& map, const char** cursor, uint size);
 
 private:
     std::vector<Animation*> animations;
