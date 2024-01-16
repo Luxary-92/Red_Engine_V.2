@@ -23,9 +23,9 @@ ComponentAnimation::~ComponentAnimation()
 
 }
 
-void ComponentAnimation::PushAnimation(Animation* pushedAnimation) {
+void ComponentAnimation::AddAnimation(Animation* pushedAnimation) {
 
-	this->animationsList.push_back(pushedAnimation);
+	this->animation.push_back(pushedAnimation);
 
 }
 
@@ -34,8 +34,8 @@ void ComponentAnimation::PrintInspector()
 	if (ImGui::CollapsingHeader("Animation", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth))
 	{
 		
-		if (animationsList.empty()) return;
-		for (int i = 0; i < animationsList.size(); i++)
+		if (animation.empty()) return;
+		for (int i = 0; i < animation.size(); i++)
 		{
 			ImGui::Text("Has animations");
 		}

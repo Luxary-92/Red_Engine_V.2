@@ -262,8 +262,15 @@ void GameObject::PrintInspector()
 
 
 // In case componetAnimation Fails
-void GameObject::PushAnimation(Animation* pushedAnimation) {
 
-	this->animationsList.push_back(pushedAnimation);
+void GameObject::AddAnimation(Animation* animation) {
+	this->animation.push_back(animation);
+}
 
+void GameObject::AddAnimations(std::vector<Animation*> animations)
+{
+	this->animation = animations;
+	for (int i = 0; i < animations.size(); i++) {
+		this->animation.push_back(animations[i]);
+	}
 }

@@ -15,12 +15,17 @@ struct Channel
     std::map<double, Quat> RotKeyFrames;
     std::map<double, float3> ScaleKeyFrames;
 
-    std::map<double, float3>::const_iterator GetNextPosKey(double currentKey) const;
-    std::map<double, Quat>::const_iterator GetNextRotKey(double currentKey) const;
-    std::map<double, float3>::const_iterator GetNextScaleKey(double currentKey) const;
-    std::map<double, float3>::const_iterator GetPreviousPosKey(double currentKey) const;
-    std::map<double, Quat>::const_iterator GetPreviousRotKey(double currentKey) const;
-    std::map<double, float3>::const_iterator GetPreviousScaleKey(double currentKey) const;
+    //Position
+    std::map<double, float3>::const_iterator PositionNextKey(double currentKey) const;
+    std::map<double, float3>::const_iterator PositionPrevousKey(double currentKey) const;
+    //Rotation
+    std::map<double, Quat>::const_iterator RotationNextKey(double currentKey) const;
+    std::map<double, Quat>::const_iterator RotationPrevousKey(double currentKey) const;
+    //Scale
+    std::map<double, float3>::const_iterator ScaleNextKey(double currentKey) const;
+    std::map<double, float3>::const_iterator ScalePrevousKey(double currentKey) const;
+
+
 };
 
 

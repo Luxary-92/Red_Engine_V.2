@@ -15,9 +15,11 @@ public:
 
 	void PrintInspector();
 
+	void AddAnimation(Animation* animation);
+
 	void PushAnimation(Animation* pushedAnimation);
 
-	std::vector<Animation*> animationsList;
+	std::vector<Animation*> animation;
 
 	bool animBonesLink = false;
 	bool linkChannels = false;

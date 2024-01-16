@@ -13,6 +13,9 @@ class ComponentMesh;
 class ComponentMaterial;
 class ComponentCamera;
 class ComponentAnimation;
+
+//struct Animation;
+
 class GameObject
 {
 public:
@@ -57,10 +60,11 @@ public:
 
 
 	// In case componetAnimation Fails
+	void AddAnimation(Animation* animations);
 
-	void PushAnimation(Animation* pushedAnimation);
+	void AddAnimations(std::vector<Animation*> animations);
 
-	std::vector<Animation*> animationsList;
+	std::vector<Animation*> animation;
 	bool animBonesLink = false;
 	bool linkChannels = false;
 	bool showAnimBones = false;
