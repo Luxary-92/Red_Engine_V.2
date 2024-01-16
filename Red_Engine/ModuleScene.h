@@ -3,6 +3,13 @@
 #include "Globals.h"
 #include "MathGeoLib/include/MathGeoLib.h"
 #include <string>
+#include "Color.h"
+
+struct f3line {
+
+	float3 line;
+	Color color;
+};
 
 class GameObject;
 class ModuleScene : public Module
@@ -26,6 +33,9 @@ public:
 	void SaveSceneRequest() { saveSceneRequest = true; }
 	void LoadSceneRequest() { loadSceneRequest = true; }
 	 
+	void AddLines(float3 line, Color color);
+	void DrawLines();
+	std::vector<f3line> lines;
 
 private:
 	void UpdateGameObjects();
@@ -46,3 +56,4 @@ private:
 	bool saveSceneRequest = false;
 	bool loadSceneRequest = false;
 };
+

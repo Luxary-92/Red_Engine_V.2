@@ -66,6 +66,17 @@ bool ModuleScene::CleanUp() {
     return true;
 }
 
+void ModuleScene::AddLines(float3 line, Color c) {
+    f3line fline;
+
+    fline.line = line;
+    fline.color = c;
+
+    lines.push_back(fline);
+}
+
+
+
 GameObject* ModuleScene::CreateGameObject(GameObject* parent)
 {
     GameObject* newGameObject = new GameObject(parent);

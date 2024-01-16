@@ -41,6 +41,10 @@ GameObject::~GameObject()
 
 	mComponents.clear();
 
+	if (!animation.empty()) {
+		animation.clear();
+	}
+
 }
 
 GameObject::GameObject(GameObject* parent)
@@ -271,7 +275,7 @@ void GameObject::AddAnimations(std::vector<Animation*> animations)
 {
 	this->animation = animations;
 	for (int i = 0; i < animations.size(); i++) {
-		this->animation.push_back(animations[i]);
+		this->GO_animations.push_back(animations[i]);
 	}
 }
 
@@ -301,9 +305,9 @@ void GameObject::UpdateAnimations(float dt, bool playing) {
 				if (blendingDuration > 0.0f)
 				{
 					previousAnimation += dt;
-					blendingCurrentTime += dt;
+					Time += dt;
 					//Blendig
-					if (blendingCurrentTime >= blendingDuration)
+					if (Time >= blendingDuration)
 					{
 						blendingDuration = 0.0f;
 					}
@@ -316,9 +320,9 @@ void GameObject::UpdateAnimations(float dt, bool playing) {
 					}
 
 					if (blendingDuration > 0.0f)
-						blendRatio = blendingCurrentTime / blendingDuration;
+						blendRatio = Time / blendingDuration;
 				}
-				currentTime += dt;
+				Time += dt;
 
 				currentAnimation = dt * currentAnimationA->ticksPerSec;
 
@@ -328,8 +332,26 @@ void GameObject::UpdateAnimations(float dt, bool playing) {
 	}
 
 	// Draw funcion
-	if (showAnimBones) {
+	if (showBones) {
 		
+	}
+}
+
+void GameObject::DrawBones(GameObject* p)
+{
+	if (!p->mChildren.empty()) {
+		for (int i = 0; i < p->mChildren.size(); i++) {
+			p->mChildren[i]->DrawBones(p->mChildren[i]);
+
+			std::vector<float3> line;
+
+			line.push_back(float3(p->transform->getPosition().x, p->transform->getPosition().y, p->transform->getPosition().z));
+			line.push_back(float3(p->mChildren[i]->transform->getPosition().x, p->mChildren[i]->transform->getPosition().y, p->mChildren[i]->transform->getPosition().z));
+
+			for (int j = 0; j < line.size(); j++) {
+				App->scene->AddLines(line[j], Red);
+			}
+		}
 	}
 }
 

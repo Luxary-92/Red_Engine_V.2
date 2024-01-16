@@ -64,28 +64,30 @@ public:
 	// This has to go to componetAnimation
 
 	void StartAnimation();
-	void AddAnimation(Animation* animations);
+	void AddAnimation(Animation* animation);
 	void UpdateAnimations(float dt, bool playing);
-
 
 	void AddAnimations(std::vector<Animation*> animations);
 	std::vector<Animation*> animation;
 
 	//Animation prooeties
-	bool animBonesLink = false;
-	bool linkChannels = false;
-	bool showAnimBones = false;
-	float currentTime = 0.f;
 	bool isAnimationPlaying = false;
 	bool hasAnimationStarted = false;
-	float blendingCurrentTime = 0.f;
+
+	float Time = 0.f;
+
+	bool animBonesLinked = false;
+	bool ChannelsLinked = false;
+	bool showBones = false;
+
+	float blendingTime = 0.f;
 	float blendingDuration = 0.f;
 
 	uint previousAnimation = 0;
 	uint currentAnimation = 0;
+
 	Animation* previousAnimationA = nullptr;
 	Animation* currentAnimationA = nullptr;
-
 
 	//Bones stuff
 	GameObject* rootBone = nullptr;
@@ -99,10 +101,17 @@ public:
 	std::map <GameObject*, Channel*> BonesCurrentAnim;
 	std::map <GameObject*, Channel*> BonesPrevAnim;
 
+	void DrawBones(GameObject* p);
+
 	void UpdateChannels(const Animation* settings, const Animation* blend, float blendRatio);
 	float3	GetCurrentChannelPosition(const Channel& ch, float currentKey, float3 defaultPos) const;
 	float3	GetCurrentChannelRotation(const Channel& ch, float currentKey, float3 defaultRot) const;
 	float3	GetCurrentChannelScale(const Channel& ch, float currentKey, float3 defaultScale) const;
+
+	//Load Animations
+
+
+	std::vector<Animation*> GO_animations;
 
 
 };
