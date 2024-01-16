@@ -212,7 +212,6 @@ void GameObject::AttachChild(GameObject* child)
 }
 
 
-
 void GameObject::PrintInspector()
 {
 
@@ -296,13 +295,13 @@ void GameObject::UpdateAnimations(float dt, bool playing) {
 
 			if (currentAnimationA != nullptr) {
 
-				//Updating animation blend // Este comentario tiene ya 3 generaciones
+				//Updating animation blend
 				float blendRatio = 0.0f;
 				if (blendingDuration > 0.0f)
 				{
 					previousAnimation += dt;
 					blendingCurrentTime += dt;
-
+					//Blendig
 					if (blendingCurrentTime >= blendingDuration)
 					{
 						blendingDuration = 0.0f;
@@ -327,7 +326,7 @@ void GameObject::UpdateAnimations(float dt, bool playing) {
 		}
 	}
 
-	// Draw bones if needed
+	// Draw funcion
 	if (showAnimBones) {
 		
 	}

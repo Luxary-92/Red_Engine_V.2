@@ -60,8 +60,9 @@ public:
 
 
 	// This has to go to componetAnimation
-	void AddAnimation(Animation* animations);
+
 	void StartAnimation();
+	void AddAnimation(Animation* animations);
 	void UpdateAnimations(float dt, bool playing);
 
 
