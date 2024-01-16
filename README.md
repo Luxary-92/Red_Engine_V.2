@@ -15,6 +15,10 @@ Click on the Emmerald Engine folder and Execute Red_Engine.exe
 
 ## Engine Description
 
+## High level sistem
+
+You can put a game object with skeleton
+
 ### Controls
 
 #### Camera
