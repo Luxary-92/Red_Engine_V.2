@@ -26,13 +26,20 @@ bool ModuleScene::Start() {
 
 
     //Load Baker House
+   
    App->assimpMeshes->LoadFile("Assets/Models/BakerHouse.fbx");
+
    street=App->assimpMeshes->LoadFile("Assets/Models/scene.DAE");
+   street->transform->rotation.x = -90;
+   street->transform->calculateMatrix();
+
    // FBX with animation
    App->assimpMeshes->LoadFile("Assets/Animation/simpleAnimation.fbx");
 
-   street->transform->rotation.x = -90;
-   street->transform->calculateMatrix();
+   Test = App->assimpMeshes->LoadFile("Assets/Test_Animation/Idle.fbx");
+   Test->transform->position.y = 30;
+
+
 
 
     return true;

@@ -59,25 +59,7 @@ bool ModuleEditor::Init()
     showAboutWindow = false;
     wireframeMode = false;
 
-    //Window info
-    //fullscreen = App->window->IsFullscreen();
-    //resizable = App->window->IsResizable();
-    //borderless = App->window->IsBorderless();
-    //fulldesktop = App->window->IsFulldesktop();
-    //brightness = SDL_GetWindowBrightness(App->window->window);
-    
-    //Renderer info
-    //vsync = App->renderer3D->GetVsync();
-    //depthTest = App->renderer3D->GetDepthTestAttribute();
-    //cullFace = App->renderer3D->GetCullFaceAttribute();
-    //lighting = App->renderer3D->GetLightingAttribute();
-    //coloMaterial = App->renderer3D->GetColorMaterialAttribute();
-    //texture2D = App->renderer3D->GetTexture2DAttribute();
-    //blend = App->renderer3D->GetBlendAttribute();
-    //alphaTest = App->renderer3D->GetAlphaTestAttribute();
-    //lineSmooth = App->renderer3D->GetLineSmoothAttribute();
-    //pointSmooth = App->renderer3D->GetPointSmoothAttribute();
-    //polygonSmooth = App->renderer3D->GetPolygonSmoothAttribute();
+
 
     //Hardware Info
     SDL_version versionSDL;
@@ -102,6 +84,13 @@ bool ModuleEditor::Init()
             if (SDL_GetCurrentDisplayMode(i, &displayMode) == 0) {
                 screens.push_back(SDL_GetDisplayName(i));
             }
+        }
+    }
+
+
+    for (int i = 0; i < gameObjects.size(); i++) {
+        if (!gameObjects[i]->GO_animations.empty()) {
+            gameObjects[i]->UpdateAnimation(dt, playing);
         }
     }
 

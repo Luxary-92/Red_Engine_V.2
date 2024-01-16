@@ -63,10 +63,6 @@ public:
 
 	// This has to go to componetAnimation
 
-	void StartAnimation();
-	void AddAnimation(Animation* animation);
-	void UpdateAnimations(float dt, bool playing);
-
 	void AddAnimations(std::vector<Animation*> animations);
 	std::vector<Animation*> animation;
 
@@ -91,17 +87,11 @@ public:
 
 	//Bones stuff
 	GameObject* rootBone = nullptr;
-	std::map<std::string, GameObject*> AllBones;
-	std::vector<Animation*> animationBones;
-
-	uint boneID;
-
-	Channel* bone;
-
-	std::map <GameObject*, Channel*> BonesCurrentAnim;
-	std::map <GameObject*, Channel*> BonesPrevAnim;
+	std::vector <GameObject*> bones;
 
 	void DrawBones(GameObject* p);
+
+	//Chanels
 
 	void UpdateChannels(const Animation* settings, const Animation* blend, float blendRatio);
 	float3	GetCurrentChannelPosition(const Channel& ch, float currentKey, float3 defaultPos) const;
@@ -110,9 +100,12 @@ public:
 
 	//Load Animations
 
-
 	std::vector<Animation*> GO_animations;
 
+	void AddAnimation(Animation* animation);
+	void AddAnimation(Animation* animation);
 
+	void StartAnimation();
+	void UpdateAnimations(float dt, bool playing);
 };
 

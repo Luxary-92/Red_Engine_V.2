@@ -28,6 +28,7 @@ public:
 	GameObject* CreateGameObject(GameObject* parent);
 	GameObject* root = nullptr;
 	GameObject* street;
+	GameObject* Test;
 
 
 	void SaveSceneRequest() { saveSceneRequest = true; }

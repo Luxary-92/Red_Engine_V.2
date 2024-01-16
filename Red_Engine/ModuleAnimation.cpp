@@ -132,9 +132,7 @@ Animation* ModuleAnimation::LoadAnimation(aiAnimation* anim) {
 
 		channel.name = anim->mChannels[i]->mNodeName.C_Str();
 
-		//uint pos = channel.name.find("_$AssimpFbx$_");
-
-		uint pos = channel.name.find("FBX");
+		uint pos = channel.name.find("_$AssimpFbx$_");
 		if (pos != std::string::npos)
 		{
 			channel.name = channel.name.substr(0, pos);
