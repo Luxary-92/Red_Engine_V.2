@@ -33,7 +33,7 @@ Nixon Correa
 ## Links
 [GitHub](https://github.com/Luxary-92/Red_Engine_V.2)
 
-[Last Release](https://github.com/Luxary-92/Red_Engine_V.2)
+[Last Release]([https://github.com/Luxary-92/Red_Engine_V.2](https://github.com/Luxary-92/Red_Engine_V.2/releases/tag/Red_Engine_V.3))
 
 
 ## License
