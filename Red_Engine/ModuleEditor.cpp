@@ -88,11 +88,7 @@ bool ModuleEditor::Init()
     }
 
 
-    for (int i = 0; i < gameObjects.size(); i++) {
-        if (!gameObjects[i]->GO_animations.empty()) {
-            gameObjects[i]->UpdateAnimation(dt, playing);
-        }
-    }
+
 
     Now3D = SDL_Has3DNow();
     AltiVec = SDL_HasAltiVec();

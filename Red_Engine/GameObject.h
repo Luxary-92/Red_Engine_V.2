@@ -109,10 +109,11 @@ public:
 
 	std::vector<Animation*> GO_animations;
 
-	void AddAnimation(Animation* animation);
-	void AddAnimation(Animation* animation);
-
 	void StartAnimation();
+	void AddAnimation(Animation* animation);
 	void UpdateAnimations(float dt, bool playing);
+	
+
+
 };
 

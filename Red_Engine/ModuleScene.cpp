@@ -37,10 +37,10 @@ bool ModuleScene::Start() {
    App->assimpMeshes->LoadFile("Assets/Animation/simpleAnimation.fbx");
 
    Test = App->assimpMeshes->LoadFile("Assets/Test_Animation/Idle.fbx");
-   Test->transform->position.y = 30;
+
 
    Test2 = App->assimpMeshes->LoadFile("Assets/Test_Animation/simpleAnimation.fbx");
-   Test2->transform->position.y = 30;
+
 
 
 
