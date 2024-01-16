@@ -38,7 +38,8 @@ public:
     std::string name;
     float duration;
     float ticksPerSec;
-    float currentFrame = 0;
+    uint initTimeAnim = 0;
+    float time;
     bool loop = false;
 
     std::map<std::string, Channel> channels;

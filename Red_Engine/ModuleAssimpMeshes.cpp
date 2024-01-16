@@ -511,3 +511,4 @@ bool ModuleAssimpMeshes::CleanUp()
     aiDetachAllLogStreams();
     return true;
 }
+

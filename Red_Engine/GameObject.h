@@ -18,6 +18,16 @@ class ComponentAnimation;
 
 struct Animation;
 
+
+struct AnimationClip
+{
+	AnimationClip();
+	char name[32];
+	float startFrame, endFrame;
+	bool loop;
+	Animation* originalAnimation;
+};
+
 class GameObject
 {
 public:
@@ -64,13 +74,13 @@ public:
 	// This has to go to componetAnimation
 
 	void AddAnimations(std::vector<Animation*> animations);
-	std::vector<Animation*> animation;
+	std::vector<Animation*> animation_go;
 
 	//Animation prooeties
-	bool isAnimationPlaying = false;
+	bool isAnimationPlaying = true;
 	bool hasAnimationStarted = false;
 
-	float Time = 0.f;
+	float Time_2 = 0.f;
 
 	bool animBonesLinked = false;
 	bool ChannelsLinked = false;
@@ -97,6 +107,8 @@ public:
 	std::map <GameObject*, Channel*> BonesCurrentAnim;
 	std::map <GameObject*, Channel*> BonesPrevAnim;
 	void DrawBones(GameObject* p);
+	void StoreBoneMapping(GameObject* go);
+	bool FindRootBone();
 
 	//Chanels
 
@@ -107,13 +119,22 @@ public:
 
 	//Load Animations
 
-	std::vector<Animation*> GO_animations;
-
 	void StartAnimation();
 	void AddAnimation(Animation* animation);
-	void UpdateAnimations(float dt, bool playing);
+	void UpdateAnimations(float dt);
+
+	void DeleteAnimation(Animation* anim);
+
+	void PlayAnim(Animation* anim, float blendDuration = 0.2f, float Speed = 1.0f);
+	void PauseAnim();
+	void ResumeAnim();
+
+	void AddClip(Animation* anim);
+
+	std::vector<AnimationClip> clips;
+	AnimationClip* selectedClip = nullptr;
+
+	Animation* ClipToAnim(AnimationClip clip);
 	
-
-
 };
 

@@ -41,8 +41,8 @@ GameObject::~GameObject()
 
 	mComponents.clear();
 
-	if (!animation.empty()) {
-		animation.clear();
+	if (!animation_go.empty()) {
+		animation_go.clear();
 	}
 
 }
@@ -268,14 +268,27 @@ void GameObject::PrintInspector()
 // This has to go to componetAnimation
 
 void GameObject::AddAnimation(Animation* animation) {
-	this->animation.push_back(animation);
+	this->animation_go.push_back(animation);
 }
 
 void GameObject::AddAnimations(std::vector<Animation*> animations)
 {
-	this->animation = animations;
+	this->animation_go = animations;
 	for (int i = 0; i < animations.size(); i++) {
-		this->GO_animations.push_back(animations[i]);
+		this->animation_go.push_back(animations[i]);
+	}
+}
+
+void GameObject::AddClip(Animation* animation) {
+	if (animation != nullptr) {
+		AnimationClip clip;
+
+		strcpy(clip.name, animation->name.c_str());
+		clip.startFrame = animation->initTimeAnim;
+		clip.endFrame = animation->initTimeAnim + animation->duration;
+		clip.originalAnimation = animation;
+
+		clips.push_back(clip);
 	}
 }
 
@@ -291,10 +304,10 @@ void GameObject::StartAnimation() {
 
 }
 
-void GameObject::UpdateAnimations(float dt, bool playing) {
+void GameObject::UpdateAnimations(float dt) {
 
 	// Update Current Animation
-	if (playing) {
+	if (this->isAnimationPlaying) {
 		if (!hasAnimationStarted) { StartAnimation(); }
 		else {
 
@@ -305,9 +318,9 @@ void GameObject::UpdateAnimations(float dt, bool playing) {
 				if (blendingDuration > 0.0f)
 				{
 					previousAnimation += dt;
-					Time += dt;
+					Time_2 += dt;
 					//Blendig
-					if (Time >= blendingDuration)
+					if (Time_2 >= blendingDuration)
 					{
 						blendingDuration = 0.0f;
 					}
@@ -320,11 +333,18 @@ void GameObject::UpdateAnimations(float dt, bool playing) {
 					}
 
 					if (blendingDuration > 0.0f)
-						blendRatio = Time / blendingDuration;
+						blendRatio = Time_2 / blendingDuration;
 				}
-				Time += dt;
+				Time_2 += dt;
+
+
 
 				currentAnimation = dt * currentAnimationA->ticksPerSec;
+				currentAnimationA += currentAnimationA->initTimeAnim;
+				if (currentAnimationA->loop == true) {
+					Time_2 = 0.0f;
+				}
+
 
 				UpdateChannels(currentAnimationA, blendRatio > 0.0f ? previousAnimationA : nullptr, blendRatio);
 			}
@@ -459,3 +479,39 @@ float3	GameObject::GetCurrentChannelScale(const Channel& ch, float currentKey, f
 	}
 	return defaultScale;
 }
+
+
+void GameObject::DeleteAnimation(Animation* anim) {
+	for (int i = 0; i < animation_go.size(); i++) {
+		if (animation_go[i] == anim) {
+			animation_go.erase(animation_go.begin() + i);
+		}
+	}
+}
+
+void GameObject::PlayAnim(Animation* anim, float blendDuration, float Speed) {
+
+}
+
+void GameObject::PauseAnim() {
+
+}
+
+void GameObject::ResumeAnim() {
+
+}
+
+AnimationClip::AnimationClip() : name("Namen't"), startFrame(0), endFrame(0), originalAnimation(nullptr), loop(false) {
+
+}
+
+Animation* GameObject::ClipToAnim(AnimationClip clip)
+{
+	Animation* animation = new Animation(clip.name, clip.endFrame - clip.startFrame, clip.originalAnimation->ticksPerSec);
+
+	animation->initTimeAnim = clip.startFrame;
+	animation->loop = clip.loop;
+
+	return animation;
+}
+

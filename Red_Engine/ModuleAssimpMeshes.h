@@ -76,6 +76,21 @@ public:
     Mesh* ImportMesh(aiMesh* aiMesh);
     std::string ImportTexture(const aiScene* scene, int index, std::string path);
     GameObject* ProcessNode(const aiScene* scene, aiNode* node, GameObject* parent, std::string Path);
+
+    GameObject* asignedGo = nullptr;
+    GameObject* rootBone = nullptr;
+
+    std::vector<GameObject*> bonesMap;
+    std::vector<mat4x4> boneTransforms;
+    std::vector<mat4x4> bonesOffsets;
+
+
+    void SetRootBone(GameObject* bone);
+
+    void GetBoneMapping();
+
+    void TryCalculateBones();
+    bool calculatedBonesThisFrame = false;
     
 public:
     std::vector<Mesh*> meshes;
