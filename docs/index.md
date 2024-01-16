@@ -25,10 +25,11 @@ Nixon Correa
 
 ## Last subsystems
 
+The engine has the animation channels and recognizes bones but they do not move and are not attached to the mesh
 
 ## Video
 
-
+https://youtu.be/ZQ-Pu79nUyY
 
 ## Links
 [GitHub](https://github.com/Luxary-92/Red_Engine_V.2)
