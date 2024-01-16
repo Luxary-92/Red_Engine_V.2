@@ -50,6 +50,7 @@ public:
     bool Init() override;
     update_status Update(float dt) override;
     void SaveChannel(const Channel& channel, char** cursor);
+    void SaveChannelKeys(const std::map<double, float3>& map, char** cursor);
 
 private:
     std::vector<Animation*> animations;

@@ -39,19 +39,41 @@ update_status ModuleAnimation::Update(float dt)
     return update_status::UPDATE_CONTINUE;
 }
 
-
-void ModuleAnimation::SaveChannel(const Channel& channel, char** cursor) {
-
-    // Name
-    uint nameSize = channel.name.size();
-    memcpy(*cursor, &nameSize, sizeof(uint));
-    *cursor += sizeof(uint);
-
-    memcpy(*cursor, channel.name.c_str(), channel.name.size());
-    *cursor += channel.name.size();
-
-
-}
+//
+//void ModuleAnimation::SaveChannel(const Channel& channel, char** cursor) {
+//
+//    // Name
+//    uint nameSize = channel.name.size();
+//    memcpy(*cursor, &nameSize, sizeof(uint));
+//    *cursor += sizeof(uint);
+//
+//    memcpy(*cursor, channel.name.c_str(), channel.name.size());
+//    *cursor += channel.name.size();
+//
+//	// Range
+//	uint range[3] = { channel.PosKeyFrames.size(), channel.RotKeyFrames.size(), channel.ScaleKeyFrames.size() };
+//	memcpy(*cursor, range, sizeof(uint) * 3);
+//	*cursor += sizeof(uint) * 3;
+//
+//	// Save Channels
+//	SaveChannelKeys(channel.PosKeyFrames, cursor);
+//	SaveChannelKeys(channel.RotKeyFrames, cursor);
+//	SaveChannelKeys(channel.ScaleKeyFrames, cursor);
+//
+//}
+//
+//void ModuleAnimation::SaveChannelKeys(const std::map<double, float3>& map, char** cursor) {
+//	std::map<double, float3>::const_iterator it = map.begin();
+//
+//	for (it = map.begin(); it != map.end(); it++)
+//	{
+//		memcpy(*cursor, &it->first, sizeof(double));
+//		*cursor += sizeof(double);
+//
+//		memcpy(*cursor, &it->second, sizeof(float) * 3);
+//		*cursor += sizeof(float) * 3;
+//	}
+//}
 
 
 Animation* ModuleAnimation::LoadAnimation(aiAnimation* anim) {
