@@ -51,6 +51,7 @@ public:
     update_status Update(float dt) override;
     void SaveChannel(const Channel& channel, char** cursor);
     void SaveChannelKeys(const std::map<double, float3>& map, char** cursor);
+    void SaveChannelKeysQuat(const std::map<double, Quat>& map, char** cursor);
 
 private:
     std::vector<Animation*> animations;
